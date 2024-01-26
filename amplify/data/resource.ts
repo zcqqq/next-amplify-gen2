@@ -8,12 +8,87 @@ specify that owners, authenticated via your Auth resource can "create",
 authenticated via an API key, can only "read" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
-    .model({
+  //tenant
+  Todo: a.model({
       content: a.string(),
-    })
-    .authorization([a.allow.owner(), a.allow.public().to(['read'])]),
-});
+      done: a.boolean(),
+      priority: a.enum(['low', 'medium', 'high']),
+    }),
+  Tenant: a.model({
+      tenant_name: a.string(),
+      quota_video_generation: a.integer(),
+      left_video_generation: a.integer(),
+      tenantTier: a.belongsTo('TenantTier'),
+      channels: a.hasMany('Channel'),
+      contents: a.hasMany('Content'),
+      strategies: a.hasMany('Strategy'),
+      audiences: a.hasMany('Audience'),
+      customers: a.hasMany('Customer'),
+      groups: a.hasMany('Group'),
+      tags: a.hasMany('Tag'),
+      events: a.hasMany('Event'),
+      metaCustomerFields: a.hasMany('MetaCustomerField'),
+    }),
+  TenantTier: a.model({
+      tier_name: a.string(),
+      quota_video_generation: a.integer(),
+      tenants: a.hasMany('Tenant'),
+    }),
+  //core
+  Channel: a.model({
+    channel_id: a.string(), //来自渠道的原始id
+    channel_name: a.string(),
+    channel_type: a.string(),
+    channel_status: a.string(),
+    contents: a.hasMany('Content'),
+    strategies: a.hasMany('Strategy'),
+    groups: a.hasMany('Group'),
+    events: a.hasMany('Event'),
+  }),
+  Content: a.model({
+    content_type: a.string(),
+    content_content: a.string(), //TODO 先模拟content的文本内容
+  }),
+  Strategy: a.model({
+    strategy_name: a.string(),
+    strategy_type: a.string(),
+    strategy_match_type: a.string(), //AI or regex
+    strategy_match_content: a.string(),
+    strategy_content: a.string(),
+  }),
+  Audience: a.model({
+    audience_name: a.string(),
+    audience_type: a.string(),
+  }),
+  Customer: a.model({
+    name: a.string(),
+    gender: a.string(),
+    //自定义字段
+    field1: a.string(),
+    field2: a.string(),
+    //标签
+
+    events: a.hasMany('Event'),
+  }),
+  Group: a.model({
+    group_name: a.string(),
+    group_type: a.string(),
+  }),
+  Tag: a.model({
+    tag_name: a.string(),
+    tag_type: a.string(),
+  }),
+  Event: a.model({
+    event_type: a.string(),
+    event_timestamp: a.integer(),
+  }),
+  //meta
+  MetaCustomerField: a.model({
+    field_id: a.string(),
+    field_name: a.string(),
+    field_type: a.string(),
+  }),
+}).authorization([a.allow.owner(), a.allow.public()]);
 
 export type Schema = ClientSchema<typeof schema>;
 
