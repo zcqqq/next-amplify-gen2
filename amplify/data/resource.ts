@@ -1,4 +1,4 @@
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData, defineFunction } from '@aws-amplify/backend';
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -8,34 +8,14 @@ specify that owners, authenticated via your Auth resource can "create",
 authenticated via an API key, can only "read" records.
 =========================================================================*/
 const schema = a.schema({
-  //tenant
-  Todo: a.model({
-      content: a.string(),
-      done: a.boolean(),
-      priority: a.enum(['low', 'medium', 'high']),
-    }),
-  Tenant: a.model({
-      tenant_name: a.string(),
-      quota_video_generation: a.integer(),
-      left_video_generation: a.integer(),
-      tenantTier: a.belongsTo('TenantTier'),
-      channels: a.hasMany('Channel'),
-      contents: a.hasMany('Content'),
-      strategies: a.hasMany('Strategy'),
-      audiences: a.hasMany('Audience'),
-      customers: a.hasMany('Customer'),
-      groups: a.hasMany('Group'),
-      tags: a.hasMany('Tag'),
-      events: a.hasMany('Event'),
-      metaCustomerFields: a.hasMany('MetaCustomerField'),
-    }),
-  TenantTier: a.model({
-      tier_name: a.string(),
-      quota_video_generation: a.integer(),
-      tenants: a.hasMany('Tenant'),
-    }),
   //core
+  Tenant: a.model({
+    tenant_name: a.string(),
+    quota_video_generation: a.integer(),
+    left_video_generation: a.integer(),
+  }),
   Channel: a.model({
+    tenant_id: a.string(),
     channel_id: a.string(), //来自渠道的原始id
     channel_name: a.string(),
     channel_type: a.string(),
@@ -44,7 +24,9 @@ const schema = a.schema({
     strategies: a.hasMany('Strategy'),
     groups: a.hasMany('Group'),
     events: a.hasMany('Event'),
-  }),
+    tenant: a.belongsTo('Tenant'),
+  }).authorization([a.allow.groupDefinedIn('tenant_id')]),
+  /*
   Content: a.model({
     content_type: a.string(),
     content_content: a.string(), //TODO 先模拟content的文本内容
@@ -77,6 +59,11 @@ const schema = a.schema({
   Tag: a.model({
     tag_name: a.string(),
     tag_type: a.string(),
+    parent_folder_id: a.id(),
+  }),
+  TagFolder: a.model({
+    folder_name: a.string(),
+    parent_folder_id: a.id(),
   }),
   Event: a.model({
     event_type: a.string(),
@@ -87,8 +74,8 @@ const schema = a.schema({
     field_id: a.string(),
     field_name: a.string(),
     field_type: a.string(),
-  }),
-}).authorization([a.allow.owner(), a.allow.public()]);
+  }),*/
+}).authorization([a.allow.public()]);
 
 export type Schema = ClientSchema<typeof schema>;
 
@@ -96,7 +83,6 @@ export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: 'apiKey',
-    // API Key is used for a.allow.public() rules
     apiKeyAuthorizationMode: {
       expiresInDays: 30,
     },
