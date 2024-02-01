@@ -74,9 +74,8 @@ export const auth = defineAuth({
     //   mutable: true,
     //   required: false,
     // },
-    locale: { mutable: true, required: false },
     nickname: { mutable: true, required: false },
     preferredUsername: { mutable: true, required: false },
-    profilePage: { mutable: true, required: false },
+    
   },
 });

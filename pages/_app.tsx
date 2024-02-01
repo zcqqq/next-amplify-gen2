@@ -3,8 +3,11 @@ import React from 'react';
 import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { Authenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
 import type { AppProps } from "next/app";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
+import 'primeicons/primeicons.css';
+
 
 Amplify.configure(config);
 
@@ -13,7 +16,7 @@ export default function App() {
   return (
     <Authenticator 
     initialState='signUp'
-    //signUpAttributes={['name','nickname','preferred_username']}
+    //signUpAttributes={['nickname','preferred_username']}
     >
       {({ signOut, user }) => (
         <main>

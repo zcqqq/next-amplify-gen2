@@ -1,0 +1,15 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-testui-staging-93242-authRole",
+      "UnauthRoleArn": "arn:aws:iam::099990170032:role/amplify-testui-staging-93242-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::099990170032:role/amplify-testui-staging-93242-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-testui-staging-93242-deployment",
+      "UnauthRoleName": "amplify-testui-staging-93242-unauthRole",
+      "StackName": "amplify-testui-staging-93242",
+      "StackId": "arn:aws:cloudformation:us-west-2:099990170032:stack/amplify-testui-staging-93242/0a3cb560-aed2-11ee-9d3e-0ae80231f8b9",
+      "AmplifyAppId": "d1bqubsjt2vuv5"
+    }
+  }
+}
