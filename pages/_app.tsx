@@ -7,29 +7,25 @@ import type { AppProps } from "next/app";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import 'primeicons/primeicons.css';
-
+import '@aws-amplify/ui-react/styles.css';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 
 Amplify.configure(config);
 
-/* with authenticator 
-export default function App() {
+/* with authenticator */
+function App({ Component, pageProps }: AppProps, { signOut, user }: WithAuthenticatorProps) {
   return (
-    <Authenticator 
-    initialState='signUp'
-    //signUpAttributes={['nickname','preferred_username']}
-    >
-      {({ signOut, user }) => (
-        <main>
-          <h1>Hello {user?.username}</h1>
-          <button onClick={signOut}>Sign out</button>
-        </main>
-      )}
-    </Authenticator>
+    <Authenticator
+      initialState='signUp'
+      signUpAttributes={['nickname', 'preferred_username']}
+    ><Component {...pageProps} /></Authenticator>
   );
-}*/
+}
+export default withAuthenticator(App);
 
-/* no authenticator */
+/* no authenticator 
 export default function App({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
-}
+}*/
 

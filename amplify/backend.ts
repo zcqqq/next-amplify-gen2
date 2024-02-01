@@ -12,7 +12,7 @@ const { cfnUserPool } = backend.auth.resources.cfnResources;
 // use CDK's `addPropertyOverride` to modify properties directly
 cfnUserPool.addPropertyOverride("Schema", [
   {
-    Name: "tenantId",
+    Name: "tenant_id",
     AttributeDataType: "String",
     Mutable: true,
   },

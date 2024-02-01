@@ -12,9 +12,9 @@ export default function Tag() {
         {label: '标签列表',},
     ];
 
-    useEffect(() => {
-        NodeService.getTreeNodes().then((data) => setNodes(data));
-    }, []);
+    //useEffect(() => {
+    //    NodeService.getTreeNodes().then((data) => setNodes(data));
+    //}, []);
 
     return (
         <div style={{ display: 'flex' }}>

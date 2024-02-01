@@ -24,14 +24,14 @@ const schema = a.schema({
     strategies: a.hasMany('Strategy'),
     groups: a.hasMany('Group'),
     events: a.hasMany('Event'),
-    tenant: a.belongsTo('Tenant'),
-  }).authorization([a.allow.groupDefinedIn('tenant_id')]),
-  /*
+  }),
   Content: a.model({
+    tenant_id: a.string(),
     content_type: a.string(),
     content_content: a.string(), //TODO 先模拟content的文本内容
   }),
   Strategy: a.model({
+    tenant_id: a.string(),
     strategy_name: a.string(),
     strategy_type: a.string(),
     strategy_match_type: a.string(), //AI or regex
@@ -39,50 +39,56 @@ const schema = a.schema({
     strategy_content: a.string(),
   }),
   Audience: a.model({
+    tenant_id: a.string(),
     audience_name: a.string(),
     audience_type: a.string(),
   }),
   Customer: a.model({
-    name: a.string(),
+    tenant_id: a.string(),
+    nickname: a.string(),
     gender: a.string(),
     //自定义字段
     field1: a.string(),
     field2: a.string(),
     //标签
-
     events: a.hasMany('Event'),
   }),
   Group: a.model({
+    tenant_id: a.string(),
     group_name: a.string(),
     group_type: a.string(),
   }),
   Tag: a.model({
+    tenant_id: a.string(),
     tag_name: a.string(),
     tag_type: a.string(),
     parent_folder_id: a.id(),
   }),
   TagFolder: a.model({
+    tenant_id: a.string(),
     folder_name: a.string(),
     parent_folder_id: a.id(),
   }),
   Event: a.model({
+    tenant_id: a.string(),
     event_type: a.string(),
     event_timestamp: a.integer(),
   }),
   //meta
   MetaCustomerField: a.model({
+    tenant_id: a.string(),
     field_id: a.string(),
     field_name: a.string(),
     field_type: a.string(),
-  }),*/
-}).authorization([a.allow.public()]);
+  }),
+}).authorization([a.allow.groupDefinedIn('tenant_id'),a.allow.public()]);
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'apiKey',
+    defaultAuthorizationMode: 'userPool',
     apiKeyAuthorizationMode: {
       expiresInDays: 30,
     },
