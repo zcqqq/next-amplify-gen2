@@ -13,14 +13,42 @@ Resources:
       CodeUri: hello-world/
       Handler: app.lambdaHandler
       Runtime: nodejs18.x
-      Architectures:
-        - x86_64
       Events:
         HelloWorld:
           Type: Api
           Properties:
             Path: /hello
             Method: get
+      MemorySize: 3008
+      Timeout: 30
+      FunctionUrlConfig:
+        AuthType: NONE
+        Cors:
+          AllowOrigins:
+            - '*'
+  FunctionWebhookDouyin:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: !Sub
+        - Stack ${AWS::StackName} Function ${ResourceName}
+        - ResourceName: FunctionWebhookDouyin
+      CodeUri: src/FunctionWebhookDouyin
+      Handler: index.handler
+      Runtime: nodejs20.x
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      Events:
+        ServerlessRestApiPOSTwebhookDouyin:
+          Type: Api
+          Properties:
+            Path: /webhookDouyin
+            Method: POST
+  FunctionWebhookDouyinLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Retain
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${FunctionWebhookDouyin}
 Outputs:
   HelloWorldApi:
     Description: API Gateway endpoint URL for Prod stage for Hello World function
