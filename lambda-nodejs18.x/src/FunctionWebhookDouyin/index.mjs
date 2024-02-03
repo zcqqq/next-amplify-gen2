@@ -1,4 +1,6 @@
 import verify_webhook from './verify_webhook.mjs';
+import authorize from './authorize.mjs';
+import im_group_receive_msg from './im_group_receive_msg.mjs';
 
 export const handler = async (event) => {
   console.log('Received event:', event);
@@ -6,5 +8,7 @@ export const handler = async (event) => {
 
   switch (jsonBody.event) {
     case 'verify_webhook': return verify_webhook(jsonBody);
+    case 'authorize': return authorize(jsonBody);
+    case 'im_group_receive_msg': return im_group_receive_msg(jsonBody);
   }
 }

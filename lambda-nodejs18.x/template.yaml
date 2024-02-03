@@ -44,11 +44,37 @@ Resources:
           Properties:
             Path: /webhookDouyin
             Method: POST
+      Environment:
+        Variables:
+          amplifyAuth_userPoolId: us-east-1_R4YzIDFUA
   FunctionWebhookDouyinLogGroup:
     Type: AWS::Logs::LogGroup
     DeletionPolicy: Retain
     Properties:
       LogGroupName: !Sub /aws/lambda/${FunctionWebhookDouyin}
+  authDouyin:
+    Type: AWS::Serverless::Function
+    Properties:
+      Description: !Sub
+        - Stack ${AWS::StackName} Function ${ResourceName}
+        - ResourceName: authDouyin
+      CodeUri: src/authDouyin
+      Handler: index.handler
+      Runtime: nodejs20.x
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      Events:
+        ServerlessRestApiGETauthDouyin:
+          Type: Api
+          Properties:
+            Path: /authDouyin
+            Method: GET
+  authDouyinLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Retain
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${authDouyin}
 Outputs:
   HelloWorldApi:
     Description: API Gateway endpoint URL for Prod stage for Hello World function
