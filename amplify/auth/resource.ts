@@ -1,5 +1,4 @@
-import { defineAuth } from '@aws-amplify/backend';
-import { signUp } from 'aws-amplify/auth';
+import { defineAuth,secret } from '@aws-amplify/backend';
 
 /**
  * Define and configure your auth resource
@@ -24,6 +23,16 @@ export const auth = defineAuth({
     // callbackUrls: ['http://localhost:3000'],
     // logoutUrls: ['http://localhost:3000'],
     // },
+    externalProviders: {
+      google: {
+        clientId: secret('GOOGLE_CLIENT_ID'),
+        clientSecret: secret('GOOGLE_CLIENT_SECRET')
+      },
+      callbackUrls: [
+        'http://localhost:3000/',
+      ],
+      logoutUrls: ['http://localhost:3000/', ]
+    }
   },
   /**
    * enable multifactor authentication
@@ -41,7 +50,6 @@ export const auth = defineAuth({
     //   mutable: true,
     //   required: false,
     // },
-    nickname: { mutable: true, required: false },
-    preferredUsername: { mutable: true, required: false },
   },
+
 });

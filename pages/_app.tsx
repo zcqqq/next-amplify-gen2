@@ -4,9 +4,6 @@ import { Amplify } from 'aws-amplify';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { Authenticator } from '@aws-amplify/ui-react';
 import type { AppProps } from "next/app";
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import "primereact/resources/primereact.min.css";
-import 'primeicons/primeicons.css';
 import '@aws-amplify/ui-react/styles.css';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
@@ -21,11 +18,12 @@ function App({ Component, pageProps }: AppProps, { signOut, user }: WithAuthenti
       signUpAttributes={['nickname', 'preferred_username']}
     ><Component {...pageProps} /></Authenticator>
   );
-}
+} 
 export default withAuthenticator(App);
 
 /* no authenticator 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
-}*/
-
+  return (
+    <Component {...pageProps} />
+  )
+} */

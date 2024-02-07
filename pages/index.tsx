@@ -1,76 +1,61 @@
 // pages/index.tsx
 import { useState, useEffect, useRef } from 'react';
-import { generateClient } from 'aws-amplify/data';
-import type { Schema } from '@/amplify/data/resource';
-import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
 import { useRouter } from 'next/router';
-import { Menu } from 'primereact/menu';
-import { MenuItem } from 'primereact/menuitem';
-import { Toast } from 'primereact/toast';
-import { StyleClass } from 'primereact/styleclass';
-import { Ripple } from 'primereact/ripple';
-import { InputText } from 'primereact/inputtext';
-import { Badge } from 'primereact/badge';
+import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
+import Sider from 'antd/es/layout/Sider';
+import { HomeOutlined,UserOutlined,TeamOutlined,TagOutlined,ReadOutlined,CommentOutlined,SubnodeOutlined } from '@ant-design/icons';
+import i18next from './i18n';
 
-// generate your data client using the Schema from your backend
-/* with backend 
-const client = generateClient<Schema>();
+const Index: React.FC = () => {
 
-export default function NavHome() {
-  const [tenants, setTenants] = useState<Schema['Tenant'][]>([]);
+  type MenuItem = Required<MenuProps>['items'][number];
+  function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[], type?: 'group',
+  ): MenuItem { return { key, icon, children, label, type, } as MenuItem; }
+  
+  const items: MenuProps['items'] = [
+    getItem(i18next.t('menu.home'), '/channel', <HomeOutlined />),
+    getItem(i18next.t('menu.marketing'), '/marketing', null, [getItem(i18next.t('menu.content'), '/content',<ReadOutlined/>), getItem(i18next.t('menu.strategy'), '/strategy',<SubnodeOutlined/>), getItem(i18next.t('menu.audience'), '/audience',<CommentOutlined/>)], 'group'),
+    getItem(i18next.t('menu.data'), '/data', null, [getItem(i18next.t('menu.customer'), '/customer', <UserOutlined/>), getItem(i18next.t('menu.group'), '/group',<TeamOutlined/>), getItem(i18next.t('menu.tag'), '/tag',<TagOutlined/>)], 'group'),
+  ];
 
-  async function listTodos() {
-    const { data } = await client.models.Tenant.list();
-    setTenants(data);
-  }
-
+  const [loginId, setLoginId] = useState(String);
   useEffect(() => {
-    const sub = client.models.Tenant.observeQuery().subscribe(({ items }) =>
-     setTenants([...items])
-    );
-    return () => sub.unsubscribe();
+    const fetchLoginId = async () => {
+      try {
+        const { signInDetails } = await getCurrentUser();
+        const id = signInDetails?.loginId ?? '';
+        setLoginId(id);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchLoginId();
   }, []);
 
-  // pages/index.tsx
-// ...
-return (
-  <main>
-    <h1>Hello, Amplify 👋</h1>
-
-    <ul>
-      {tenants.map((tenant) => (
-        <li key={tenant.id}>{tenant.tenant_name}</li>
-      ))}
-    </ul>
-  </main>
-);
-}*/
-
-/* pure frontend */
-export default function NavHome() {
-  const toast = useRef<Toast>(null);
+  const [current, setCurrent] = useState('')
   const router = useRouter();
-  const items: MenuItem[] = [
-    { label: '首页', icon: 'pi pi-home', url: '/' },
-    {
-      label: '营销', items: [
-        { label: '内容', icon: 'pi pi-book', url: '/content', },
-        { label: '策略', icon: 'pi pi-box', url: '/strategy', },
-        { label: '受众', icon: 'pi pi-envelope', url: '/audience', },
-      ]
-    },
-    {
-      label: '数据', items: [
-        { label: '客户', icon: 'pi pi-user', url: '/customer', },
-        { label: '客户群', icon: 'pi pi-users', url: '/group', },
-        { label: '标签', icon: 'pi pi-tag', url: '/tag', }
-      ]
-    },];
+  useEffect(() => {
+    router.push(current)
+  }, [current])
+
+  const onClick: MenuProps['onClick'] = (e) => {
+    setCurrent(e.key)
+  }
 
   return (
-    //PrimeBlocks. Sidebar Layouts. Grouped Menu
-    <div style={{ display: 'flex', height: '100vh' }}>
-      <Menu model={items} />
-    </div>
-  )
-}
+    <Sider style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }}    >
+      <Menu
+      style={{ height: '100%', borderRight: 0, width: '100%' }}
+        onClick={onClick}
+        defaultSelectedKeys={['1']}
+        defaultOpenKeys={['sub1']}
+        mode='inline'
+        items={items}
+      />
+    </Sider>
+  );
+};
+
+export default Index;

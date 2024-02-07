@@ -11,6 +11,7 @@ const schema = a.schema({
   //core
   Tenant: a.model({
     tenant_name: a.string(),
+    douyin_openid: a.string(),
     quota_video_generation: a.integer(),
     left_video_generation: a.integer(),
   }),
@@ -20,6 +21,13 @@ const schema = a.schema({
     channel_name: a.string(),
     channel_type: a.string(),
     channel_status: a.string(),
+    douyin_access_token: a.string(),
+    douyin_access_expires_in: a.integer(),
+    douyin_refresh_expires_in: a.integer(),
+    douyin_refresh_token: a.string(),
+    douyin_scope: a.string(),
+    douyin_client_token: a.string(),
+    douyin_client_expires_in: a.integer(),
     contents: a.hasMany('Content'),
     strategies: a.hasMany('Strategy'),
     groups: a.hasMany('Group'),
@@ -47,9 +55,11 @@ const schema = a.schema({
     tenant_id: a.string(),
     nickname: a.string(),
     gender: a.string(),
+    //身份
+    douyin_open_id: a.string(),
+    douyin_union_id: a.string(),
     //自定义字段
     field1: a.string(),
-    field2: a.string(),
     //标签
     events: a.hasMany('Event'),
   }),

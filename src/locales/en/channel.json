@@ -1,0 +1,8 @@
+{
+  "weixin": {
+    "channelType": "WeChat Official Account"
+  },
+  "douyin": {
+    "channelType": "Douyin Enterprise Account"
+  }
+}
