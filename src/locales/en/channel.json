@@ -4,5 +4,8 @@
   },
   "douyin": {
     "channelType": "Douyin Enterprise Account"
+  },
+  "weixinwork": {
+    "channelType": "WeCom"
   }
 }

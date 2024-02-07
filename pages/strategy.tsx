@@ -1,10 +1,12 @@
-import { Card, Col, Row, ConfigProvider, theme, Layout } from 'antd';
+import { Card, Col, Row, ConfigProvider, theme, Layout, Button, Checkbox, Form, Input, Radio, Select, Flex } from 'antd';
 import React, { useState, useEffect } from 'react';
 import Index from './index';
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
+import { RadioGroupField } from '@aws-amplify/ui-react';
 
+//menu
 const items: MenuProps['items'] = [
   {
     label: '视频评论',
@@ -14,8 +16,29 @@ const items: MenuProps['items'] = [
     label: 'Navigation Two',
     key: 'app',
   }];
-const { Header } = Layout;
-const { Meta } = Card;
+const { Header, Content } = Layout;
+
+//form display
+
+
+//form submit
+const onFinish = (values: any) => {
+  console.log('Success:', values);
+};
+
+const onFinishFailed = (errorInfo: any) => {
+  console.log('Failed:', errorInfo);
+};
+
+type FieldType = {
+  strategyOption?: string;
+  channelId?: string;
+  contentId?: string;
+  triggerOption?: string;
+  triggerContent?: string;
+  actionOption?: string;
+  actionContent?: string;
+};
 
 const Strategy: React.FC = () => {
   const {
@@ -28,6 +51,76 @@ const Strategy: React.FC = () => {
         <Header style={{ padding: 0, background: colorBgContainer }} >
           <Menu mode="horizontal" items={items} />
         </Header>
+        <Content>
+          <Form
+            name="basic"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 24 }}
+            style={{ maxWidth: 1000 }}
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item<FieldType>
+              name="strategyOption">
+              <Radio defaultChecked>回复视频评论</Radio>
+            </Form.Item>
+            <Form.Item<FieldType>
+              name="channelId" label="选择账号">
+              <Select
+                options={[
+                  { value: 'jack', label: 'Jack' },
+                  { value: 'lucy', label: 'Lucy' },
+                ]}
+              />
+            </Form.Item>
+            <Form.Item<FieldType>
+              name="contentId">
+              <Flex style={{ justifyContent: 'space-between' }}>
+                <Radio.Group defaultValue={"one"} style={{ display: 'flex' }}>
+                  <Radio value={"all"}>所有视频</Radio>
+                  <Radio value={"one"}>单个视频</Radio>
+                </Radio.Group>
+                <Select
+                  options={[
+                    { value: 'jack', label: 'Jack' },
+                    { value: 'lucy', label: 'Lucy' },
+                  ]}
+                />
+              </Flex>
+            </Form.Item>
+            <Form.Item<FieldType>
+              name="triggerOption">
+                <Radio.Group defaultValue={"ai"}>
+                  <Radio value={"ai"}>AI语义</Radio>
+                  <Radio value={"match"}>完整匹配</Radio>
+                </Radio.Group>
+            </Form.Item>
+            <Form.Item<FieldType>
+              label="评论内容"
+              name="triggerContent">
+                <Input />
+              </Form.Item>
+              <Form.Item<FieldType>
+              name="actionOption">
+                <Radio.Group defaultValue={"ai"}>
+                  <Radio value={"ai"}>AI生成</Radio>
+                  <Radio value={"original"}>文本</Radio>
+                </Radio.Group>
+            </Form.Item>
+            <Form.Item<FieldType>
+              label="回复内容"
+              name="actionContent">
+                <Input.TextArea/>
+              </Form.Item>
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Content>
       </Layout>
     </Layout>
   )

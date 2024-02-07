@@ -4,5 +4,8 @@
   },
   "douyin": {
     "channelType": "抖音企业号"
+  },
+  "weixinwork": {
+    "channelType": "企业微信"
   }
 }

@@ -9,8 +9,6 @@ const { Header } = Layout;
 const { Meta } = Card;
 
 const Channel: React.FC = () => {
-  const {t} = useTranslation();
-
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -25,7 +23,7 @@ const Channel: React.FC = () => {
               actions={[<SettingOutlined key="connectDouyin" onClick={() => window.open('https://open.douyin.com/platform/oauth/connect/?client_key=awgqrvbxb86rz073&response_type=code&scope=user_info,renew_refresh_token,aweme.share,im.direct_message,im.group_message,im.group_fans.create_list,user.intention,tool.image.upload,im.microapp_card,im.message_card&redirect_uri=https://localhost:3000/authDouyin', '_blank')}
               />]}
             >
-              <Meta title={t('description.part2')} style={{ textAlign: 'center' }} />
+              <Meta title={i18n.t('channel:douyin.channelType')} style={{ textAlign: 'center' }} />
             </Card>
           </Col>
           <Col span={4}>
@@ -33,7 +31,7 @@ const Channel: React.FC = () => {
               actions={[<SettingOutlined key="connectWeixin" onClick={() => window.open('https://baidu.com', '_blank')}
               />]}
             >
-              <Meta title="微信公众号" style={{ textAlign: 'center' }} />
+              <Meta title={i18n.t('channel:weixin.channelType')} style={{ textAlign: 'center' }} />
             </Card>
           </Col>
           <Col span={4}>
@@ -41,7 +39,7 @@ const Channel: React.FC = () => {
               actions={[<SettingOutlined key="connectWeixinWork" onClick={() => window.open('https://baidu.com', '_blank')}
               />]}
             >
-              <Meta title="企业微信" style={{ textAlign: 'center' }} />
+              <Meta title={i18n.t('channel:weixinwork.channelType')} style={{ textAlign: 'center' }} />
             </Card>
           </Col>
         </Row>
