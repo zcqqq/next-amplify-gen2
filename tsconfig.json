@@ -16,6 +16,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/strategy/messageReply.jsx", "pages/strategy/groupReply.jsx", "pages/tag.jsx", "pages/tagData.jsx", "pages/strategy/contentComment.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/strategy/messageReply.jsx", "pages/strategy/groupReply.jsx", "pages/tag.jsx", "pages/tagData.jsx", "pages/customer.jsx"],
   "exclude": ["node_modules"]
 }

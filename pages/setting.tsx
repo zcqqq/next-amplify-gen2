@@ -1,4 +1,3 @@
-// pages/index.tsx
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
@@ -8,16 +7,15 @@ import Sider from 'antd/es/layout/Sider';
 import { HomeOutlined,UserOutlined,TeamOutlined,TagOutlined,ReadOutlined,CommentOutlined,SubnodeOutlined,SettingOutlined } from '@ant-design/icons';
 import i18next from './i18n';
 
-const Index: React.FC = () => {
+const Setting: React.FC = () => {
 
   type MenuItem = Required<MenuProps>['items'][number];
   function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[], type?: 'group',
   ): MenuItem { return { key, icon, children, label, type, } as MenuItem; }
   
   const items: MenuProps['items'] = [
-    getItem(i18next.t('menu.home'), '/channel', <HomeOutlined />),
-    getItem(i18next.t('menu.marketing'), '/marketing', null, [getItem(i18next.t('menu.content'), '/content',<ReadOutlined/>), getItem(i18next.t('menu.strategy'), '/strategy',<SubnodeOutlined/>), getItem(i18next.t('menu.audience'), '/audience',<CommentOutlined/>)], 'group'),
-    getItem(i18next.t('menu.data'), '/data', null, [getItem(i18next.t('menu.customer'), '/customer', <UserOutlined/>), getItem(i18next.t('menu.group'), '/group',<TeamOutlined/>), getItem(i18next.t('menu.tag'), '/tag',<TagOutlined/>)], 'group'),
+    getItem(i18next.t('setting:menu.metadata'), '/metadata', null, [getItem(i18next.t('setting:menu.customerAttributes'), '/setting/customerAttributes',<ReadOutlined/>), ], 'group'),
+    getItem(i18next.t('setting:menu.configuration'), '/configuration', null, [], 'group'),
   ];
 
   const [loginId, setLoginId] = useState(String);
@@ -47,7 +45,7 @@ const Index: React.FC = () => {
   return (
     <Sider style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }}    >
       <Flex>
-      <SettingOutlined key="setting" onClick={() => router.push('/setting')}
+      <HomeOutlined key="home" onClick={() => router.push('/')}
               />
       </Flex>
       <Menu
@@ -62,4 +60,4 @@ const Index: React.FC = () => {
   );
 };
 
-export default Index;
+export default Setting;

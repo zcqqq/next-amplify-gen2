@@ -1,16 +1,17 @@
-import { Card, Col, Row, ConfigProvider, theme, Layout, Button, Checkbox, Form, Input, Radio, Select, Flex } from 'antd';
+import { generateClient } from 'aws-amplify/data';
+import { type Schema } from '@/amplify/data/resource'
 import React, { useState, useEffect } from 'react';
-import Index from './index';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import {Menu, Card, Col, Row, ConfigProvider, theme, Layout, Button, Checkbox, Form, Input, Radio, Select, Flex } from 'antd';
 import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
-import { RadioGroupField } from '@aws-amplify/ui-react';
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import Index from './index';
+const client = generateClient<Schema>();
 
 //menu
 const items: MenuProps['items'] = [
   {
     label: '视频评论',
-    key: '/douyinContentComment',
+    key: '/douyinReplyComment',
   },
   {
     label: 'Navigation Two',
@@ -22,8 +23,10 @@ const { Header, Content } = Layout;
 
 
 //form submit
-const onFinish = (values: any) => {
+const onFinish = async (values: any) => {
   console.log('Success:', values);
+  const { errors, data: newStrategy } = await client.models.Strategy.create(values);
+  console.log(newStrategy.id);
 };
 
 const onFinishFailed = (errorInfo: any) => {
@@ -32,7 +35,7 @@ const onFinishFailed = (errorInfo: any) => {
 
 type FieldType = {
   strategyOption?: string;
-  channelId?: string;
+  channelStrategiesId?: string;
   contentId?: string;
   triggerOption?: string;
   triggerContent?: string;
@@ -64,10 +67,10 @@ const Strategy: React.FC = () => {
           >
             <Form.Item<FieldType>
               name="strategyOption">
-              <Radio defaultChecked>回复视频评论</Radio>
+              <Radio defaultChecked value={"replyComment"}>回复视频评论</Radio>
             </Form.Item>
             <Form.Item<FieldType>
-              name="channelId" label="选择账号">
+              name="channelStrategiesId" label="选择账号">
               <Select
                 options={[
                   { value: 'jack', label: 'Jack' },

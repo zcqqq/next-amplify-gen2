@@ -7,12 +7,12 @@ import https from 'https';
 export default async function authorize(jsonBody) {
   
   function postRequest(body) {
-    const url = 'https://xqpptgyamjcyrjyfcnrf7jxkh4.appsync-api.us-east-1.amazonaws.com/graphql';
+    const url = 'https://mma7gba3ozbddoagm5o753vwoa.appsync-api.us-east-1.amazonaws.com/graphql';
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': 'da2-2b4mxclnbzhlxp2t6ezir7tdgu'
+        'x-api-key': 'da2-7hhdqgedwfhsddxbbw24bulgfa'
       },
     };
     return new Promise((resolve, reject) => {

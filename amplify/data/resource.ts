@@ -42,9 +42,10 @@ const schema = a.schema({
     tenant_id: a.string(),
     strategy_name: a.string(),
     strategy_type: a.string(),
-    strategy_match_type: a.string(), //AI or regex
-    strategy_match_content: a.string(),
-    strategy_content: a.string(),
+    triggerOption: a.string(),
+    triggerContent: a.string(),
+    actionOption: a.string(),
+    actionContent: a.string()
   }),
   Audience: a.model({
     tenant_id: a.string(),
@@ -91,7 +92,7 @@ const schema = a.schema({
     field_name: a.string(),
     field_type: a.string(),
   }),
-}).authorization([a.allow.groupDefinedIn('tenant_id'),a.allow.public()]);
+}).authorization([a.allow.groupDefinedIn('tenant_id'), a.allow.public()]);
 
 export type Schema = ClientSchema<typeof schema>;
 
@@ -110,7 +111,7 @@ Go to your frontend source code. From your client-side code, generate a
 Data client to make CRUDL requests to your table. (THIS SNIPPET WILL ONLY
 WORK IN THE FRONTEND CODE FILE.)
 
-Using JavaScript or Next.js React Server Components, Middleware, Server 
+Using JavaScript or Next.js React Server Components, Middleware, Server
 Actions or Pages Router? Review how to generate Data clients for those use
 cases: https://docs.amplify.aws/gen2/build-a-backend/data/connect-to-API/
 =========================================================================*/
