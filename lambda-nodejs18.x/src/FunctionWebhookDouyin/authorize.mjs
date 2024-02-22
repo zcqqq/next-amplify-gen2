@@ -3,50 +3,28 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import { AppSyncClient } from "@aws-sdk/client-appsync";
 import https from 'https';
+import appsync from './appsync.mjs';
+
 
 export default async function authorize(jsonBody) {
-  
-  function postRequest(body) {
-    const url = 'https://mma7gba3ozbddoagm5o753vwoa.appsync-api.us-east-1.amazonaws.com/graphql';
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': 'da2-7hhdqgedwfhsddxbbw24bulgfa'
-      },
-    };
-    return new Promise((resolve, reject) => {
-      const req = https.request(url, options, res => {
-        let rawData = '';
-        res.on('data', chunk => {
-          rawData += chunk;
-        });
-        res.on('end', () => {
-          try {
-            resolve(JSON.parse(rawData));
-          } catch (err) {
-            reject(new Error(err));
-          }
-        });
-      });
-      req.on('error', err => {
-        reject(new Error(err));
-      });
-        req.write(JSON.stringify(body));
-      req.end();
-    });
-  }
-  
   try {
-    const result = await postRequest({
-      query: 'mutation MyMutation {createTenant(input: {tenant_name: \"fromlambda\", quota_video_generation: 10}) { id}}',
-      variables: ''
+    let channel_id;
+    const searchChannelResponse = await appsync({
+      query: 'query MyQuery {listChannels(filter: {channel_status: {eq: "INACTIVE"}, channel_type: {eq: "DOUYIN"}}) {items {id}}}',
     });
+    if (searchChannelResponse.data.listChannels.items.length > 0) {
+      channel_id = searchChannelResponse.data.listChannels.items[0].id;
+      console.log('update channel_id:' + channel_id);
+      await appsync({
+        query: 'mutation MyMutation {updateChannel(input: {id: "' + channel_id + '", channel_name: "", channel_status: "ACTIVE", channel_id: "' + jsonBody.from_user_id + '"}){id}}',
+      });
+    }
   } catch (error) {
     return {
       statusCode: 400, body: error.message,
     };
   }
+
   /*//1. 如果租户不存在，则在cognito中创建group，表中创建tenant和channel；否则返回租户信息.
   const cognitoClient = new CognitoIdentityProviderClient();
   let userPoolId = process.env.amplifyAuth_userPoolId;
