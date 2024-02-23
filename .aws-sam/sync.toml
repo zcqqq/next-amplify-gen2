@@ -2,7 +2,7 @@
 
 [sync_state]
 dependency_layer = false
-latest_infra_sync_time = "2024-02-02T09:10:24.861982"
+latest_infra_sync_time = "2024-02-23T09:05:57.054556"
 
 [resource_sync_states]
 [resource_sync_states."ZipFunctionSyncFlow:HelloWorldFunction"]
@@ -16,3 +16,7 @@ sync_time = "2024-02-02T04:15:40.959992"
 [resource_sync_states."ZipFunctionSyncFlow:FunctionWebhookDouyin"]
 hash = "3eb18155e6232a4208b87672a9c1fc37cac02fdcff780e4c4c65e6a8bf0cfa06"
 sync_time = "2024-02-02T08:47:47.192613"
+
+[resource_sync_states."ZipFunctionSyncFlow:authDouyin"]
+hash = "3efba4d6c8c30f890d9fdf13d802cc6e4faae61464ade9f43f53710429946604"
+sync_time = "2024-02-23T09:13:00.789043"

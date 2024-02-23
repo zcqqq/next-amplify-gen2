@@ -47,6 +47,8 @@ Resources:
       Environment:
         Variables:
           amplifyAuth_userPoolId: us-east-1_R4YzIDFUA
+          client_key: awgqrvbxb86rz073
+          client_secret: f1089b5c3ca50ef27c9144d52a7febb1
   FunctionWebhookDouyinLogGroup:
     Type: AWS::Logs::LogGroup
     DeletionPolicy: Retain

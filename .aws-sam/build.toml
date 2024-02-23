@@ -19,7 +19,7 @@ manifest_hash = "2294c1318014f0f405f943a0b02b4b1b"
 packagetype = "Zip"
 functions = ["FunctionWebhookDouyin"]
 
-[function_build_definitions.e7561fbf-4615-45e2-a557-87f3dd8ded2a]
+[function_build_definitions.acc7aedd-c017-455a-9a5f-9ddddf0302d1]
 codeuri = "/Users/zcq/Documents/next-amplify-gen2/lambda-nodejs18.x/src/authDouyin"
 runtime = "nodejs20.x"
 architecture = "x86_64"
