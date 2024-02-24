@@ -72,6 +72,10 @@ Resources:
           Properties:
             Path: /authDouyin
             Method: GET
+      Environment:
+        Variables:
+          client_key: awgqrvbxb86rz073
+          client_secret: f1089b5c3ca50ef27c9144d52a7febb1
   authDouyinLogGroup:
     Type: AWS::Logs::LogGroup
     DeletionPolicy: Retain

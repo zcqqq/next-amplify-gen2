@@ -1,4 +1,3 @@
-import auth_code from './auth_code.mjs';
 import verify_webhook from './verify_webhook.mjs';
 import authorize from './authorize.mjs';
 import im_group_receive_msg from './im_group_receive_msg.mjs';

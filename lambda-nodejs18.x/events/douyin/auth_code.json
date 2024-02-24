@@ -1,3 +1,7 @@
 {
-  "queryStringParameters": "{\"code\": \"bb7eca6aefa8376eJ9W1xGQ0QQE3VEZ3A13z\",\"scopes\": \"user_info,basic_bc,basic_bc,basic_bc,basic_bc,basic_bc,tool.image.upload\",\"state\": \"\"}"
+  "queryStringParameters": {
+    "code": "ee9100d65b3831e8Ra47X8brIkTg3EZx8wJg",
+    "scopes": "user_info,basic_bc,basic_bc,basic_bc,basic_bc,basic_bc,tool.image.upload",
+    "state": ""
+  }
 }
